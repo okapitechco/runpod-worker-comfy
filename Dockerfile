@@ -45,8 +45,10 @@ ADD src/extra_model_paths.yaml ./
 WORKDIR /
 
 # Add the start and the handler
-ADD src/start.sh src/rp_handler.py test_input.json ./
+ADD src/start.sh src/init_nodes.sh src/rp_handler.py test_input.json ./
 RUN chmod +x /start.sh
+RUN chmod +x /init_nodes.sh
+RUN ./init_nodes.sh
 
 # Start the container
 CMD /start.sh
