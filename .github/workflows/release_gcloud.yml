@@ -7,7 +7,7 @@ on:
   #     - "main"
 
 env:
-  IMAGE_NAME: okapitechco/runpod-worker-comfy
+  IMAGE_NAME: okapitechco/runpod-worker-comfy/runpod-worker-comfy
 
 jobs:
   release:
