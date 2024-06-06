@@ -50,3 +50,5 @@ function build_extra_nodes() {
         fi
     done
 }
+
+build_extra_nodes
