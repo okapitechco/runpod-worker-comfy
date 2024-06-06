@@ -44,5 +44,5 @@ jobs:
           tags: prod, prod-${{ github.sha }}, prod-${{ github.run_id }}
           registry: us-central1-docker.pkg.dev
           # dockerfile: libs/outbox-service/Dockerfile
-          username: _json_key
+          username: _json_key_base64
           password: ${{ secrets.GCLOUD_ARTIFACT_PASSWORD }}
