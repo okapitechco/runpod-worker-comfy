@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 NODES=(
     "https://github.com/ltdrdata/ComfyUI-Manager"
@@ -11,7 +11,7 @@ NODES=(
     ## IP Adapter Plus Custom Node
     "https://github.com/cubiq/ComfyUI_IPAdapter_plus"
     ## TILE UPSCALER
-    "https://github.com/ssitu/ComfyUI_UltimateSDUpscale"
+    # "https://github.com/ssitu/ComfyUI_UltimateSDUpscale"
     ## BASE64 Image loader
     "https://github.com/Acly/comfyui-tooling-nodes"
     ## MIXLAB

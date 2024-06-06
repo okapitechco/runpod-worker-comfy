@@ -21,14 +21,19 @@ RUN apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 # Clone ComfyUI repository
 RUN git clone https://github.com/comfyanonymous/ComfyUI.git /comfyui
 
+# Build custom nodes
+ADD src/init_nodes.sh ./
+RUN chmod +x init_nodes.sh
+RUN ./init_nodes.sh
+
 # Change working directory to ComfyUI
 WORKDIR /comfyui
 
-ARG SKIP_DEFAULT_MODELS
+# ARG SKIP_DEFAULT_MODELS
 # Download checkpoints/vae/LoRA to include in image.
-RUN if [ -z "$SKIP_DEFAULT_MODELS" ]; then wget -O models/checkpoints/sd_xl_base_1.0.safetensors https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors; fi
-RUN if [ -z "$SKIP_DEFAULT_MODELS" ]; then wget -O models/vae/sdxl_vae.safetensors https://huggingface.co/stabilityai/sdxl-vae/resolve/main/sdxl_vae.safetensors; fi
-RUN if [ -z "$SKIP_DEFAULT_MODELS" ]; then wget -O models/vae/sdxl-vae-fp16-fix.safetensors https://huggingface.co/madebyollin/sdxl-vae-fp16-fix/resolve/main/sdxl_vae.safetensors; fi
+# RUN if [ -z "$SKIP_DEFAULT_MODELS" ]; then wget -O models/checkpoints/sd_xl_base_1.0.safetensors https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors; fi
+# RUN if [ -z "$SKIP_DEFAULT_MODELS" ]; then wget -O models/vae/sdxl_vae.safetensors https://huggingface.co/stabilityai/sdxl-vae/resolve/main/sdxl_vae.safetensors; fi
+# RUN if [ -z "$SKIP_DEFAULT_MODELS" ]; then wget -O models/vae/sdxl-vae-fp16-fix.safetensors https://huggingface.co/madebyollin/sdxl-vae-fp16-fix/resolve/main/sdxl_vae.safetensors; fi
 
 # Install ComfyUI dependencies
 RUN pip3 install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121 \
@@ -47,8 +52,6 @@ WORKDIR /
 # Add the start and the handler
 ADD src/start.sh src/init_nodes.sh src/rp_handler.py test_input.json ./
 RUN chmod +x /start.sh
-RUN chmod +x /init_nodes.sh
-RUN ./init_nodes.sh
 
 # Start the container
 CMD /start.sh
