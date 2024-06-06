@@ -14,7 +14,9 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     git \
     wget \
-    libgl1
+    libgl1 \
+    libgl1-mesa-glx \ 
+    libglib2.0-0
 
 # Clean up to reduce image size
 RUN apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
