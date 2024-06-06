@@ -1,3 +1,5 @@
+#!/bin/sh
+
 NODES=(
     "https://github.com/ltdrdata/ComfyUI-Manager"
     ## TILE UPSCALER
