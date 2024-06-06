@@ -1,0 +1,48 @@
+name: Release GCLOUD
+
+on:
+  workflow_dispatch:
+  # push:
+  #   branches:
+  #     - "main"
+
+env:
+  IMAGE_NAME: okapitechco/runpod-worker-comfy
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Clear space to remove unused folders
+        run: |
+          rm -rf /usr/share/dotnet
+          rm -rf /opt/ghc
+          rm -rf "/usr/local/share/boost"
+          rm -rf "$AGENT_TOOLSDIRECTORY"
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - uses: mr-smithers-excellent/docker-build-push@v5
+        name: Build & push Docker image
+        with:
+          image: ${{ env.IMAGE_NAME }}
+          tags: prod, prod-${{ github.sha }}, prod-${{ github.run_id }}
+          registry: us-central1-docker.pkg.dev
+          # dockerfile: libs/outbox-service/Dockerfile
+          username: ${{ secrets.GCLOUD_ARTIFACT_KEY }}
+          password: ${{ secrets.GCLOUD_ARTIFACT_PASSWORD }}
